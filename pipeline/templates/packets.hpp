@@ -4,13 +4,14 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <types.hpp>
 
 class DownstreamPacket
 {
-    unsigned long int _count;
+    PacketCounterType _count;
 
 public:
-    DownstreamPacket(unsigned long int count)
+    DownstreamPacket(PacketCounterType count)
         : _count(count)
     {
     }
@@ -22,10 +23,10 @@ public:
 };
 class UpstreamPacket
 {
-    unsigned long int _count;
+    PacketCounterType _count;
 
 public:
-    UpstreamPacket(unsigned long int count)
+    UpstreamPacket(PacketCounterType count)
         : _count(count)
     {
     }
@@ -34,19 +35,27 @@ public:
         return std::string("P:") + std::to_string(_count);
     }
     ~UpstreamPacket() {}
+    PacketCounterType count() const
+    {
+        return _count;
+    }
+    void setCount(const PacketCounterType& count)
+    {
+        _count = count;
+    }
 };
 
 class AScanRawPacket : public UpstreamPacket
 {
-    std::vector<unsigned char> _samples;
+    std::vector<AmplitudeType> _samples;
 
 public:
-    AScanRawPacket(const std::vector<unsigned char>& samples, unsigned long int count)
+    AScanRawPacket(const std::vector<AmplitudeType>& samples, PacketCounterType count)
         : UpstreamPacket(count)
         , _samples(samples)
     {
     }
-    std::vector<unsigned char> samples() const
+    std::vector<AmplitudeType> samples() const
     {
         return _samples;
     }

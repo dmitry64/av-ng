@@ -4,12 +4,15 @@ set(SOURCES
    templates/pipelineelement.cxx
    templates/testgeneratorelement.cxx
    templates/testreceiverelement.cxx
+   templates/syncelement.cxx
     )
 set(HEADERS
    templates/pipelineelement.hpp
    templates/testgeneratorelement.hpp
    templates/testreceiverelement.hpp
    templates/packets.hpp
+   templates/syncelement.hpp
+   templates/types.hpp
     )
 
 include_directories(templates)

@@ -1,4 +1,5 @@
 #include "testgeneratorelement.hpp"
+#include <string>
 
 TestGeneratorElement::TestGeneratorElement(std::string name, size_t upstreamSize, size_t downstreamSize)
     : PipelineElement("Generator-" + name, upstreamSize, downstreamSize)

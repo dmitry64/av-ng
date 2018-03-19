@@ -12,6 +12,7 @@ void TestReceiverElement::tick()
         if (element->recvUpstream(packet)) {
             assert(packet);
             debugPrint(packet->toString());
+            usleep(10000);
             // packet->debugPrint();
             // std::cout << "New packet:" <<
         }
