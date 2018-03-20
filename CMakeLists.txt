@@ -15,7 +15,7 @@ FIND_PACKAGE( Boost 1.54 COMPONENTS thread
     program_options REQUIRED )
 
 project(av-ng)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -fsanitize=undefined -fsanitize=integer -fsanitize=nullability ")
+#set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -fsanitize=undefined -fsanitize=integer -fsanitize=nullability ")
 add_subdirectory(pipeline)
 include_directories(${CMAKE_SOURCE_DIR}/pipeline/templates)
 add_executable(${PROJECT_NAME} "main.cpp" )

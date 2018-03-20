@@ -13,8 +13,8 @@ class PipelineElement
 {
 protected:
     std::unique_ptr<boost::thread> _elementThread;
-    boost::lockfree::queue<UpstreamPacket*> _upstreamQueue;
-    boost::lockfree::queue<DownstreamPacket*> _downstreamQueue;
+    boost::lockfree::queue<Packet*, boost::lockfree::fixed_sized<true>> _upstreamQueue;
+    boost::lockfree::queue<Packet*, boost::lockfree::fixed_sized<true>> _downstreamQueue;
     std::vector<PipelineElement*> _downstreamElements;
     std::atomic_bool _isRunning;
     std::atomic_bool _runSwitch;
@@ -30,14 +30,15 @@ public:
         , _elementName(name)
     {
         std::cout << "Created element: " << name << std::endl;
+        std::cout << "Upstream lockfree:" << _upstreamQueue.is_lock_free() << " Downstream lockfree:" << _downstreamQueue.is_lock_free() << std::endl;
     }
     virtual ~PipelineElement() {}
-    bool sendDownstream(DownstreamPacket* packetPtr)
+    bool sendDownstream(Packet* packetPtr)
     {
         assert(packetPtr);
         return _downstreamQueue.push(packetPtr);
     }
-    bool recvUpstream(UpstreamPacket*& packetPtr)
+    bool recvUpstream(Packet*& packetPtr)
     {
         return _upstreamQueue.pop(packetPtr);
     }
@@ -50,7 +51,7 @@ public:
     {
         debugPrint("Starting thread...");
         _runSwitch.store(true);
-        _elementThread = std::unique_ptr<boost::thread>(new boost::thread(boost::bind(&PipelineElement::run, this)));
+        _elementThread.reset(new boost::thread(boost::bind(&PipelineElement::run, this)));
         debugPrint("Thread started!");
     }
     void stopThread()

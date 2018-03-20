@@ -1,5 +1,7 @@
 #include "testgeneratorelement.hpp"
 #include <string>
+#include <packets.hpp>
+
 
 TestGeneratorElement::TestGeneratorElement(std::string name, size_t upstreamSize, size_t downstreamSize)
     : PipelineElement("Generator-" + name, upstreamSize, downstreamSize)
@@ -8,14 +10,15 @@ TestGeneratorElement::TestGeneratorElement(std::string name, size_t upstreamSize
 
 void TestGeneratorElement::tick()
 {
-    std::vector<unsigned char> samples;
+    AScanRawData asamples;
 
     for (int i = 0; i < 100; ++i) {
-        samples.push_back(i);
+        asamples.push_back(i);
     }
 
-    AScanRawPacket* packet = new AScanRawPacket(samples, 123);
-    if (_upstreamQueue.push(packet)) {
-        // std::cout << "Added packet to queue" << std::endl;
+    PacketData* dataPacket = new AScanRawPacket(asamples);
+
+    Packet* packet = new Packet(PacketType::eAScanRawPacket, 0, dataPacket);
+    while (!(_upstreamQueue.push(packet))) {
     }
 }

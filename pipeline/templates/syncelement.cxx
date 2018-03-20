@@ -8,13 +8,14 @@ SyncElement::SyncElement(std::string name, size_t upstreamSize, size_t downstrea
 
 void SyncElement::tick()
 {
-    for (auto& element : _downstreamElements) {
-        UpstreamPacket* packet = nullptr;
+    for (PipelineElement* element : _downstreamElements) {
+        Packet* packet = nullptr;
         if (element->recvUpstream(packet)) {
             assert(packet);
-            packet->setCount(_upstreamCounter);
+            packet->setCounter(_upstreamCounter);
             ++_upstreamCounter;
-            _upstreamQueue.push(packet);
+            while (!_upstreamQueue.push(packet)) {
+            }
             // packet->debugPrint();
             // std::cout << "New packet:" <<
         }

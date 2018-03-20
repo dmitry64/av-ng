@@ -7,11 +7,12 @@ TestReceiverElement::TestReceiverElement(std::string name, size_t upstreamSize, 
 
 void TestReceiverElement::tick()
 {
-    for (auto& element : _downstreamElements) {
-        UpstreamPacket* packet = nullptr;
+    for (PipelineElement* element : _downstreamElements) {
+        Packet* packet = nullptr;
         if (element->recvUpstream(packet)) {
             assert(packet);
             debugPrint(packet->toString());
+            delete packet;
             usleep(10000);
             // packet->debugPrint();
             // std::cout << "New packet:" <<

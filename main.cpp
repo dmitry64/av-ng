@@ -6,10 +6,10 @@
 
 int main()
 {
-    TestGeneratorElement* generator1(new TestGeneratorElement("G1", 8, 8));
-    TestGeneratorElement* generator2(new TestGeneratorElement("G2", 8, 8));
-    SyncElement* sync1(new SyncElement("S1", 8, 8));
-    TestReceiverElement* receiver(new TestReceiverElement("R1", 8, 8));
+    TestGeneratorElement* generator1(new TestGeneratorElement("G1", 2, 2));
+    TestGeneratorElement* generator2(new TestGeneratorElement("G2", 2, 2));
+    SyncElement* sync1(new SyncElement("S1", 2, 2));
+    TestReceiverElement* receiver(new TestReceiverElement("R1", 2, 2));
 
 
     receiver->addDownstreamElement(sync1);
